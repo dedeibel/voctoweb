@@ -45,8 +45,13 @@ body.page-list {
 
     .video-thumbnail {
       float: left;
-      height: 120px;
-      width: 160px;
+      text-align: center;
+      /* Keep aspect ratio */
+      display: block;
+      max-width:213px;
+      max-height:120px;
+      width: auto;
+      height: auto;
     }
 
     h3 {
@@ -90,7 +95,7 @@ body.page-list {
     }
 
     .duration-container {
-      width: 160px;
+      width: 213px;
       height: 120px;
       position: absolute;
       top: 0;
@@ -107,7 +112,7 @@ body.page-list {
     }
 
     .caption {
-      margin-left: 160px;
+      margin-left: 213px;
       padding-left: $padding-large-horizontal;
       h3 {
         margin-top: 0;

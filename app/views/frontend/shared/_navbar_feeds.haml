@@ -1,18 +1,50 @@
-%li
-  %a{href: '/news.atom'}
-    News
-%li
-  %a{href: "/updates.rdf"}
-    RSS, last 100
-%li
-  %a{href: "/podcast.xml"}
-    Podcast feed of the last two years
-%li
-  %a{href: "/podcast_sd.xml"}
-    Podcast feed of the last two years (SD)
-%li
-  %a{href: "/podcast-audio-only.xml"}
-    Podcast audio feed of the last year
-%li
-  %a{href: "/podcast-archive.xml"}
-    Podcast archive feed, everything older than two years
+.col-sm-9.left-column
+  %ul.multi-column-dropdown
+    %li
+      %a{href: '/news.atom'}
+        News
+    %li
+      %a{href: "/updates.rdf"}
+        RSS, last 100
+    %li
+      %a{href: "/podcast.xml"}
+        Podcast feed of the last two years
+    %li
+      %a{href: "/podcast-audio-only.xml"}
+        Podcast audio feed of the last year
+    %li
+      %a{href: "/podcast-archive.xml"}
+        Podcast archive feed, everything older than two years
+    - if @conference && @conference.downloaded_events_count > 0
+      %li.divider
+      %li
+        Podcast feeds for #{@conference.acronym}
+      - @conference.mime_types do |mime_type, mime_type_name|
+        %li
+          %a.indented{href: podcast_folder_feed_url(acronym: @conference.acronym, mime_type: mime_type_name)}
+            = MimeType.humanized_mime_type(mime_type)
+.col-sm-3.right-column
+  %ul.multi-column-dropdown
+    %li
+      &nbsp;
+    %li
+      &nbsp;
+    %li
+      %a{href: "/podcast_sd.xml", title: "Podcast feed of the last two years (SD)"}
+        SD Quality
+    %li
+      &nbsp;
+    %li
+      %a{href: "/podcast-archive_sd.xml", title: "Podcast archive feed, everything older than two years (SD)"}
+        SD Quality
+    - if @conference && @conference.downloaded_events_count > 0
+      %li.divider
+      %li
+        &nbsp;
+      - @conference.mime_types do |mime_type, mime_type_name|
+        %li
+          - if mime_type.start_with?('video')
+            %a{href: podcast_folder_feed_url(acronym: @conference.acronym, mime_type: mime_type_name), title: MimeType.humanized_mime_type(mime_type) + " (SD)"}
+              SD Quality
+          - else
+            &nbsp;

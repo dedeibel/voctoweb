@@ -10,15 +10,11 @@
       %a.form-control.btn.btn-default{href: '/about.html'}
         %span.icon.icon-info
 
-    .nav.navbar-form.navbar-right.dropdown
+    #feedDropdown.nav.navbar-form.navbar-right.dropdown.multi-column
       %button#feedMenu.btn.btn-default.dropdown-toggle{"aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
         %span.icon.icon-rss
-      %ul.dropdown-menu{"aria-labelledby" => "feedMenu"}
-        = render 'frontend/shared/navbar_feeds'
-        - if @conference && @conference.downloaded_events_count > 0
-          %li
-            %hr
-          = render partial: 'frontend/shared/navbar_folder_feeds', locals: { conference: @conference }
+      %ul.dropdown-menu.columns-2{"aria-labelledby" => "feedMenu"}
+        = render 'frontend/shared/navbar_feeds', locals: { conference: @conference }
 
     %form.navbar-form.navbar-right{role: 'search', action: '/search/', method: 'get', id: 'media-search'}
       .form-group.input-group

@@ -91,6 +91,18 @@ module Frontend
       seen.first[1]
     end
 
+    def preferred_recording_sd(order: MimeType::PREFERRED_VIDEO)
+      video_recordings = recordings.video
+      return if video_recordings.empty?
+
+      seen = Hash[video_recordings
+                      .select { |r| r.height && r.height < 720 }
+                      .map { |r| [r.mime_type, r] }]
+      order.each { |mt| return seen[mt] if seen.key?(mt) }
+      return if seen.empty?
+      seen.first[1]
+    end
+
     # @return [Array(Recording)]
     def by_mime_type(mime_type: 'video/mp4')
       recordings.by_mime_type(mime_type).first.freeze

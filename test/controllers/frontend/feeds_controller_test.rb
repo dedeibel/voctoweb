@@ -11,6 +11,11 @@ module Frontend
       assert_response :success
     end
 
+    test 'should get podcast sd quality' do
+      get :podcast_sd, format: :xml
+      assert_response :success
+    end
+
     test 'should get podcast_archive' do
       get :podcast_archive, format: :xml
       assert_response :success

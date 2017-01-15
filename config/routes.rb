@@ -60,6 +60,7 @@ Rails.application.routes.draw do
     get '/news.atom', to: 'news#index', defaults: { format: 'xml' }, as: :news
     get '/podcast-audio-only.xml', to: 'feeds#podcast_audio', defaults: { format: 'xml' }
     get '/podcast.xml', to: 'feeds#podcast', defaults: { format: 'xml' }
+    get '/podcast_sd.xml', to: 'feeds#podcast_sd', defaults: { format: 'xml' }
     get '/podcast-archive.xml', to: 'feeds#podcast_archive', defaults: { format: 'xml' }
     get '/updates.rdf', to: 'feeds#updates', defaults: { format: 'xml' }
 

@@ -16,6 +16,14 @@ module Feeds
       feed.generate(events, &:preferred_recording)
     end
 
+    def self.create_preferred_sd(view_context: nil, title: '', summary: '', logo: '', events: [])
+      feed = Feeds::PodcastGenerator.new(
+          view_context,
+          title: title, channel_summary: summary, logo_image: logo
+      )
+      feed.generate(events, &:preferred_recording_sd)
+    end
+
     def self.create_audio(view_context: nil, title: '', summary: '', logo: '', events: [])
       feed = Feeds::PodcastGenerator.new(
         view_context,

@@ -18,6 +18,21 @@ module Frontend
       end
     end
 
+    # podcast_recent sd
+    def podcast_sd
+      time = round_time(Time.now.ago(2.years))
+      xml = Rails.cache.fetch([:podcast, time.to_i], expires_in: EXPIRE_FEEDS.minutes) do
+        Feeds::PodcastGenerator.create_preferred_sd(
+            view_context: view_context,
+            title: 'recent events feed', summary: 'This feed contains events from the last two years',
+            logo: logo_image_url,
+            events: downloaded_events.newer(time))
+      end
+      respond_to do |format|
+        format.xml { render xml: xml }
+      end
+    end
+
     def podcast_archive
       time = round_time(Time.now.ago(2.years))
       xml = Rails.cache.fetch([:podcast_archive, time.to_i], expires_in: EXPIRE_FEEDS.minutes) do

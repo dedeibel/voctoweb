@@ -78,7 +78,7 @@
     .multi-column-dropdown li a:hover {
       text-decoration: none;
       color: #262626;
-      background-color: #f5f5f5;
+      background-color: #ccc
     }
     @media (max-width: 767px) {
       .dropdown-menu.multi-column {
@@ -89,24 +89,53 @@
   }
 
   #feedDropdown  {
+    $text_height: 20px;
+    $padding_top_or_bottom: 4px;
+
     .dropdown-menu.columns-2 {
       min-width: 490px;
     }
 
-    li {
-      line-height: 20px;
-    }
-
     ul {
       padding: 15px 0;
+
+      li {
+        height: $text_height + 2 * $padding_top_or_bottom;
+        line-height: $text_height;
+
+        &:nth-child(odd) {
+          background-color: #f5f5f5;
+        }
+
+        &.divider {
+          background-color: transparent;
+        }
+
+        a {
+          text-decoration: none;
+        }
+
+        span, a {
+          padding: $padding_top_or_bottom 10px;
+          display: inline-block;
+        }
+      }
     }
 
     .left-column {
-      padding-right: 6px;
+      padding-right: 0;
+
+      ul {
+        li {
+          span, a {
+            min-width: 24em;
+          }
+        }
+      }
     }
-    
+
     .right-column {
-      padding-left: 6px;
+      padding-left: 0;
     }
 
     .multi-column-dropdown {
@@ -115,10 +144,6 @@
 
     .indented {
       padding-left: 1em;
-    }
-
-    a {
-      text-decoration: none;
     }
   }
 }

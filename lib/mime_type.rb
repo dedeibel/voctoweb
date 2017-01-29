@@ -26,9 +26,19 @@ class MimeType
         'ogg'
       when 'audio/mpeg'
         'mp3'
+      when 'application/x-subrip'
+        'subtitles'
       else
         mime_type.split('/'.freeze)[1]
       end
+    end
+
+    def is_video(mime_type)
+      return mime_type.start_with?('video')
+    end
+
+    def is_audio(mime_type)
+      return mime_type.start_with?('audio')
     end
   end
 end

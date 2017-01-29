@@ -49,3 +49,6 @@ config/settings.yml
 # sublimetext project files
 /*.sublime-project
 /*.sublime-workspace
+# IntelliJ files
+/.idea
+/*.iml

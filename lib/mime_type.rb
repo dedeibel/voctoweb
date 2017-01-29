@@ -27,7 +27,7 @@ class MimeType
       when 'audio/mpeg'
         'mp3'
       when 'application/x-subrip'
-        'subtitles'
+        'srt'
       else
         mime_type.split('/'.freeze)[1]
       end

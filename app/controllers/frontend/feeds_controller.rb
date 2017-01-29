@@ -117,5 +117,7 @@ module Frontend
       @mime_type, @mime_type_name = @conference.mime_types.find { |_m, n| n == params[:mime_type] }
       fail ActiveRecord::RecordNotFound unless @mime_type
     end
+
+
   end
 end

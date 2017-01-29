@@ -1,20 +1,7 @@
-- menu = [ { :left => { :content => 'News', :href => '/news.atom' } },
-  { :left => { :content => 'RSS, last 100', :href => '/updates.rdf' } },
-  { :left => { :content => 'Podcast feed of the last two years', :href => '/podcast.xml' },
-     :right => { :content => 'SD Quality', :href => '/podcast_sd.xml', :title =>  'Podcast feed of the last two years (SD)'} },
-  { :left => { :content => 'Podcast audio feed of the last year', :href => '/podcast-audio-only.xml' } },
-  { :left => { :content => 'Podcast archive feed, everything older than two years', :href => '/podcast-archive.xml' },
-     :right => { :content => 'SD Quality', :href => '/podcast-archive_sd.xml', :title =>  'Podcast archive feed, everything older than two years (SD)'} } ]
-- if @conference && @conference.downloaded_events_count > 0
-  - menu.push({ :headline => "Podcast feeds for #{@conference.acronym}" })
-  - @conference.mime_types do |mime_type, mime_type_name|
-    - sub_entry = { :left => { :indented => 'indented', :content  => MimeType.humanized_mime_type(mime_type), :href => podcast_folder_feed_url(acronym: @conference.acronym, mime_type: mime_type_name), :title => MimeType.humanized_mime_type(mime_type) } }
-    - if MimeType.is_video(mime_type)
-      -   sub_entry[:right] = { :content => 'SD Quality', :href => podcast_folder_feed_url(acronym: @conference.acronym, mime_type: mime_type_name), :title => MimeType.humanized_mime_type(mime_type) + ' (SD)' }
-    - menu.push(sub_entry)
 .col-sm-9.left-column
   %ul.multi-column-dropdown
-    - menu.each do |entry|
+    -# see feeds_helper.rb for structure
+    - feed_structure.each do |entry|
       - if entry[:headline]
         %li.divider
         %li
@@ -22,16 +9,16 @@
             #{entry[:headline]}
       - else
         %li{:class => entry[:left][:indented]}
-          %a{href: entry[:left][:href]}
+          %a{:href => entry[:left][:href], :title => entry[:left][:title]}
             #{entry[:left][:content]}
 .col-sm-3.right-column
   %ul.multi-column-dropdown
-    - menu.each do |entry|
+    - feed_structure.each do |entry|
       - if entry[:headline]
         %li.divider
         %li
       - else
         %li
           - if entry[:right]
-            %a{href: entry[:right][:href]}
+            %a{:href => entry[:right][:href], :title => entry[:right][:title]}
               #{entry[:right][:content]}

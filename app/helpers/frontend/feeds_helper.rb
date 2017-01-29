@@ -18,14 +18,15 @@ module Frontend
       if @conference && @conference.downloaded_events_count > 0
         menu += add_feeds_for_conference_recordings(@conference)
       end
-      return menu
+      menu
     end
 
     private
 
     def add_feeds_for_conference_recordings(conference)
       sub_menu = []
-      @conference.mime_types do |mime_type, mime_type_name|
+      sorted_mime_types = @conference.mime_types.sort_by(& MimeType::RELEVANCE_COMPARATOR)
+      sorted_mime_types.each do |mime_type, mime_type_name|
         sub_entry = {
             :left => {
             :indented => 'indented',
@@ -33,6 +34,7 @@ module Frontend
             :href => podcast_folder_feed_url(acronym: @conference.acronym, mime_type: mime_type_name),
             :title => MimeType.humanized_mime_type(mime_type) }
         }
+
         if MimeType.is_video(mime_type)
           sub_entry[:right] = {
               :content => 'SD Quality',
@@ -43,11 +45,11 @@ module Frontend
         sub_menu.push(sub_entry)
       end
 
-      if ! sub_menu.empty?
-        sub_menu.unshift({ :headline => "Podcast feeds for #{@conference.acronym}" })
+      unless sub_menu.empty?
+        sub_menu.unshift({:headline => "Podcast feeds for #{@conference.acronym}"})
       end
 
-      return sub_menu
+      sub_menu
     end
 
   end

@@ -41,4 +41,15 @@ class MimeType
       return mime_type.start_with?('audio')
     end
   end
+
+  RELEVANCE_COMPARATOR = ->(a,b) {
+    if is_video(a) && ! is_video(b)
+      -1
+    elsif is_audio(a) && ! is_video(b) && ! is_audio(b)
+      -1
+    else
+      a <=> b
+    end
+  }
+
 end

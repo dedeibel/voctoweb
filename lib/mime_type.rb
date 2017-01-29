@@ -26,6 +26,8 @@ class MimeType
         'ogg'
       when 'audio/mpeg'
         'mp3'
+      when 'application/x-subrip'
+        'subtitles'
       else
         mime_type.split('/'.freeze)[1]
       end

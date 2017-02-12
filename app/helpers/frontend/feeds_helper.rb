@@ -25,28 +25,28 @@ module Frontend
 
     def add_feeds_for_conference_recordings(conference)
       sub_menu = []
-      sorted_mime_types = @conference.mime_types.sort_by(& MimeType::RELEVANCE_COMPARATOR)
+      sorted_mime_types = conference.mime_types.sort_by(& MimeType::RELEVANCE_COMPARATOR)
       sorted_mime_types.each do |mime_type, mime_type_name|
-        sub_entry = {
+        mime_type_sub_entry = {
             :left => {
             :indented => 'indented',
             :content  => MimeType.humanized_mime_type(mime_type),
-            :href => podcast_folder_feed_url(acronym: @conference.acronym, mime_type: mime_type_name),
+            :href => podcast_folder_feed_url(acronym: conference.acronym, mime_type: mime_type_name),
             :title => MimeType.humanized_mime_type(mime_type) }
         }
 
         if MimeType.is_video(mime_type)
-          sub_entry[:right] = {
+          mime_type_sub_entry[:right] = {
               :content => 'SD Quality',
-              :href => podcast_folder_feed_url(acronym: @conference.acronym, mime_type: mime_type_name),
+              :href => podcast_folder_feed_url(acronym: conference.acronym, mime_type: mime_type_name),
               :title => MimeType.humanized_mime_type(mime_type) + ' (SD)'
           }
         end
-        sub_menu.push(sub_entry)
+        sub_menu.push(mime_type_sub_entry)
       end
 
       unless sub_menu.empty?
-        sub_menu.unshift({:headline => "Podcast feeds for #{@conference.acronym}"})
+        sub_menu.unshift({:headline => "Podcast feeds for #{conference.acronym}"})
       end
 
       sub_menu

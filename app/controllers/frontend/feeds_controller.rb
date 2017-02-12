@@ -5,7 +5,7 @@ module Frontend
 
     # podcast_recent
     def podcast
-      time = round_time(Time.now.ago(2.years))
+      time = round_to_next_quarter_hour(Time.now.ago(2.years))
       xml = Rails.cache.fetch([:podcast, time.to_i], expires_in: EXPIRE_FEEDS.minutes) do
         Feeds::PodcastGenerator.create_preferred(
           view_context: view_context,
@@ -20,8 +20,8 @@ module Frontend
 
     # podcast_recent sd
     def podcast_sd
-      time = round_time(Time.now.ago(2.years))
-      xml = Rails.cache.fetch([:podcast, time.to_i], expires_in: EXPIRE_FEEDS.minutes) do
+      time = round_to_next_quarter_hour(Time.now.ago(2.years))
+      xml = Rails.cache.fetch([:podcast_sd, time.to_i], expires_in: EXPIRE_FEEDS.minutes) do
         Feeds::PodcastGenerator.create_preferred_sd(
             view_context: view_context,
             title: 'recent events feed', summary: 'This feed contains events from the last two years',
@@ -34,7 +34,7 @@ module Frontend
     end
 
     def podcast_archive
-      time = round_time(Time.now.ago(2.years))
+      time = round_to_next_quarter_hour(Time.now.ago(2.years))
       xml = Rails.cache.fetch([:podcast_archive, time.to_i], expires_in: EXPIRE_FEEDS.minutes) do
         Feeds::PodcastGenerator.create_preferred(
           view_context: view_context,
@@ -48,7 +48,7 @@ module Frontend
     end
 
     def podcast_audio
-      time = round_time(Time.now.ago(1.years))
+      time = round_to_next_quarter_hour(Time.now.ago(1.years))
       xml = Rails.cache.fetch([:podcast_audio, time.to_i], expires_in: EXPIRE_FEEDS.minutes) do
         events = downloaded_events.newer(time)
         Feeds::PodcastGenerator.create_audio(
@@ -101,7 +101,7 @@ module Frontend
       view_context.image_url('frontend/miro-banner.png')
     end
 
-    def round_time(time)
+    def round_to_next_quarter_hour(time)
       seconds = 15 * 60
       Time.at((time.to_f / seconds).floor * seconds)
     end

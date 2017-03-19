@@ -58,15 +58,21 @@ Rails.application.routes.draw do
     get '/tags/:tag', to: 'tags#show', as: :tag
 
     get '/news.atom', to: 'news#index', defaults: { format: 'xml' }, as: :news
-    get '/podcast-audio-only.xml', to: 'feeds#podcast_audio', defaults: { format: 'xml' }
-    get '/podcast.xml', to: 'feeds#podcast', defaults: { format: 'xml' }
-    get '/podcast_sd.xml', to: 'feeds#podcast_sd', defaults: { format: 'xml' }
-    get '/podcast-archive.xml', to: 'feeds#podcast_archive', defaults: { format: 'xml' }
     get '/updates.rdf', to: 'feeds#updates', defaults: { format: 'xml' }
+    get '/podcast-audio-only.xml', to: 'feeds#podcast_audio', defaults: { format: 'xml' }
 
-    # legacy
-    get '/podcast/:slug/:mime_type', to: 'feeds#podcast_folder', defaults: { format: 'xml' }, as: :old_podcast_folder_feed
-    # new
+    get '/podcast-hq.xml', to: 'feeds#podcast_hq', defaults: { format: 'xml' }
+    get '/podcast-lq.xml', to: 'feeds#podcast_lq', defaults: { format: 'xml' }
+
+    get '/podcast-archive-hq.xml', to: 'feeds#podcast_archive_hq', defaults: { format: 'xml' }
+    get '/podcast-archive-lq.xml', to: 'feeds#podcast_archive_lq', defaults: { format: 'xml' }
+
     get '/c/:acronym/podcast/:mime_type.xml', to: 'feeds#podcast_folder', defaults: { format: 'xml' }, as: :podcast_folder_feed
+
+    # legacy - preserve for existing users but do not advertise, remove when it seem appropriate
+    # get '/c/:acronym/podcast/:mime_type.xml', to: 'feeds#podcast_folder', defaults: { format: 'xml' }
+    get '/podcast/:slug/:mime_type', to: 'feeds#podcast_folder', defaults: { format: 'xml' }, as: :old_podcast_folder_feed
+    get '/podcast.xml', to: 'feeds#podcast', defaults: { format: 'xml' }
+    get '/podcast-archive.xml', to: 'feeds#podcast_archive', defaults: { format: 'xml' }
   end
 end

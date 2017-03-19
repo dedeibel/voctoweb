@@ -91,16 +91,16 @@ module Frontend
       seen.first[1]
     end
 
-    def preferred_recording_sd(order: MimeType::PREFERRED_VIDEO)
-      video_recordings = recordings.video
-      return if video_recordings.empty?
+    def hq_videos()
+      select_recording(
+          recordings.video,
+          sort_fn: lambda { |recording_a,recording_b| recording_b.number_of_pixels - recording_a.number_of_pixels })
+    end
 
-      seen = Hash[video_recordings
-                      .select { |r| r.height && r.height < 720 }
-                      .map { |r| [r.mime_type, r] }]
-      order.each { |mt| return seen[mt] if seen.key?(mt) }
-      return if seen.empty?
-      seen.first[1]
+    def lq_videos()
+      select_recording(
+          recordings.video,
+          select_fn: lambda { |recording| recording.height && recording.height.to_i < 720 })
     end
 
     # @return [Array(Recording)]
@@ -120,6 +120,28 @@ module Frontend
     end
 
     private
+
+    # Selects a recording from this event. First the select function is applied if any was given
+    # then the sort function is applied if any was given.
+    # Finally the first entry matching the preferred video mime type is returned or if none matches the first entry
+    # from the processed list is returned
+    def select_recording(recordings, sort_fn: nil, select_fn: nil)
+      return if recordings.empty?
+
+      if select_fn != nil
+        recordings = recordings.select &select_fn
+      end
+
+      if sort_fn != nil
+        recordings = recordings.sort &sort_fn
+      end
+
+      MimeType::PREFERRED_VIDEO.each { |mime_type|
+        found = recordings.find { |recording| recording.mime_type == mime_type }
+        return found if found != nil
+      }
+      recordings.first
+    end
 
     def thumb_filename_exists?
       return if thumb_filename.blank?

@@ -7,13 +7,13 @@ module Frontend
       menu = [
           { :left =>{ :content => 'News', :href => '/news.atom' } },
           { :left => { :content => 'RSS, last 100', :href => '/updates.rdf' } },
-          { :left => { :content => 'Podcast feed of the last two years', :href => '/podcast.xml' },
+          { :left => { :content => 'Podcast feed of the last two years', :href => '/podcast-hq.xml' },
                 :right =>
-                    { :content => 'SD Quality', :href => '/podcast_sd.xml', :title =>  'Podcast feed of the last two years (SD)'} },
+                    { :content => 'SD Quality', :href => '/podcast-lq.xml', :title =>  'Podcast feed of the last two years (SD)'} },
           { :left => { :content => 'Podcast audio feed of the last year', :href => '/podcast-audio-only.xml' } },
-          { :left => { :content => 'Podcast archive feed, everything older than two years', :href => '/podcast-archive.xml' },
+          { :left => { :content => 'Podcast archive feed, everything older than two years', :href => '/podcast-archive-hq.xml' },
                 :right =>
-                    { :content => 'SD Quality', :href => '/podcast-archive_sd.xml', :title =>  'Podcast archive feed, everything older than two years (SD)'} } ]
+                    { :content => 'SD Quality', :href => '/podcast-archive-lq.xml', :title =>  'Podcast archive feed, everything older than two years (SD)'} } ]
 
       if @conference && @conference.downloaded_events_count > 0
         menu += add_feeds_for_conference_recordings(@conference)

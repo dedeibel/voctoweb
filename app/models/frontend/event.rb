@@ -91,21 +91,40 @@ module Frontend
       seen.first[1]
     end
 
-    def hq_videos()
-      select_recording(
-          recordings.video,
-          sort_fn: lambda { |recording_a,recording_b| recording_b.number_of_pixels - recording_a.number_of_pixels })
+    def recording_by_quality(quality)
+      selected_recordings = recordings.video
+      if quality == 'hq'
+        selected_recordings = selected_recordings
+          .sort { |recording_a,recording_b| recording_b.number_of_pixels - recording_a.number_of_pixels }
+      elsif quality == 'lq'
+        selected_recordings = selected_recordings
+          .select { |recording| recording.height && recording.height.to_i < 720 }
+          .sort { |recording_a,recording_b| recording_b.number_of_pixels - recording_a.number_of_pixels }
+      end
+
+      select_video_with_preferred_mime_type(selected_recordings).freeze
     end
 
-    def lq_videos()
-      select_recording(
-          recordings.video,
-          select_fn: lambda { |recording| recording.height && recording.height.to_i < 720 })
+    def recording_by_mime_type_and_quality(mime_type, quality)
+      selected_recordings = recordings.by_mime_type(mime_type)
+      # TODO BP quality object?
+      if quality == 'hq'
+        selected_recordings
+          .sort { |recording_a,recording_b| recording_b.number_of_pixels - recording_a.number_of_pixels }
+          .first.freeze
+      elsif quality == 'lq'
+        selected_recordings
+          .select { |recording| recording.height && recording.height.to_i < 720 }
+          .sort { |recording_a,recording_b| recording_b.number_of_pixels - recording_a.number_of_pixels }
+          .first.freeze
+      else
+        selected_recordings.first.freeze
+      end
     end
 
     # @return [Array(Recording)]
     def by_mime_type(mime_type: 'video/mp4')
-      recordings.by_mime_type(mime_type).first.freeze
+        recordings.by_mime_type(mime_type).first.freeze
     end
 
     def related_event_ids(n)
@@ -121,21 +140,7 @@ module Frontend
 
     private
 
-    # Selects a recording from this event. First the select function is applied if any was given
-    # then the sort function is applied if any was given.
-    # Finally the first entry matching the preferred video mime type is returned or if none matches the first entry
-    # from the processed list is returned
-    def select_recording(recordings, sort_fn: nil, select_fn: nil)
-      return if recordings.empty?
-
-      if select_fn != nil
-        recordings = recordings.select &select_fn
-      end
-
-      if sort_fn != nil
-        recordings = recordings.sort &sort_fn
-      end
-
+    def select_video_with_preferred_mime_type(recordings)
       MimeType::PREFERRED_VIDEO.each { |mime_type|
         found = recordings.find { |recording| recording.mime_type == mime_type }
         return found if found != nil

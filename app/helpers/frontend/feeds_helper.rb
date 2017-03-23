@@ -27,22 +27,31 @@ module Frontend
       sub_menu = []
       sorted_mime_types = conference.mime_types.sort_by(& MimeType::RELEVANCE_COMPARATOR)
       sorted_mime_types.each do |mime_type, mime_type_name|
-        mime_type_sub_entry = {
-            :left => {
-            :indented => 'indented',
-            :content  => MimeType.humanized_mime_type(mime_type),
-            :href => podcast_folder_feed_url(acronym: conference.acronym, mime_type: mime_type_name),
-            :title => MimeType.humanized_mime_type(mime_type) }
-        }
-
         if MimeType.is_video(mime_type)
-          mime_type_sub_entry[:right] = {
+          sub_menu.push({
+            :left => {
+              :indented => 'indented',
+              :content  => MimeType.humanized_mime_type(mime_type),
+              :href => podcast_folder_video_feed_url(acronym: conference.acronym, mime_type: mime_type_name, quality: 'hq'),
+              :title => MimeType.humanized_mime_type(mime_type)
+            },
+            :right => {
               :content => 'SD Quality',
-              :href => podcast_folder_feed_url(acronym: conference.acronym, mime_type: mime_type_name),
+              :href => podcast_folder_video_feed_url(acronym: conference.acronym, mime_type: mime_type_name, quality: 'lq'),
               :title => MimeType.humanized_mime_type(mime_type) + ' (SD)'
-          }
+            }
+          })
+        else
+          sub_menu.push({
+            :left => {
+              :indented => 'indented',
+              :content  => MimeType.humanized_mime_type(mime_type),
+              :href => podcast_folder_feed_url(acronym: conference.acronym, mime_type: mime_type_name),
+              :title => MimeType.humanized_mime_type(mime_type)
+            }
+          })
         end
-        sub_menu.push(mime_type_sub_entry)
+
       end
 
       unless sub_menu.empty?

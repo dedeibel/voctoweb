@@ -133,9 +133,10 @@ module Frontend
     end
 
     def podcast_folder
-      xml = Rails.cache.fetch([:podcast_folder, @conference, @mime_type]) do
+      xml = Rails.cache.fetch([:podcast_folder, params[:quality], @conference, @mime_type]) do
         Feeds::PodcastGenerator.create_conference(
           view_context: view_context,
+          quality: params[:quality],
           conference: @conference,
           mime_type: @mime_type,
           mime_type_name: @mime_type_name

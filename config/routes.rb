@@ -67,12 +67,18 @@ Rails.application.routes.draw do
     get '/podcast-archive-hq.xml', to: 'feeds#podcast_archive_hq', defaults: { format: 'xml' }
     get '/podcast-archive-lq.xml', to: 'feeds#podcast_archive_lq', defaults: { format: 'xml' }
 
-    get '/c/:acronym/podcast/:mime_type.xml', to: 'feeds#podcast_folder', defaults: { format: 'xml' }, as: :podcast_folder_feed
-
-    # legacy - preserve for existing users but do not advertise, remove when it seem appropriate
+    get '/c/:acronym/podcast/:mime_type-(:quality).xml', to: 'feeds#podcast_folder',
+        defaults: { format: 'xml' }, as: :podcast_folder_video_feed
+    get '/c/:acronym/podcast/:mime_type.xml', to: 'feeds#podcast_folder',
+        defaults: { format: 'xml' }, as: :podcast_folder_feed
     # get '/c/:acronym/podcast/:mime_type.xml', to: 'feeds#podcast_folder', defaults: { format: 'xml' }
+
+    # Preserve for existing users but do not advertise, remove when it seem appropriate
+    # deprecated 2015-10
     get '/podcast/:slug/:mime_type', to: 'feeds#podcast_folder', defaults: { format: 'xml' }, as: :old_podcast_folder_feed
+    # deprecated 2017-04
     get '/podcast.xml', to: 'feeds#podcast', defaults: { format: 'xml' }
+    # deprecated 2017-04
     get '/podcast-archive.xml', to: 'feeds#podcast_archive', defaults: { format: 'xml' }
   end
 end

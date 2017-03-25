@@ -8,57 +8,6 @@ module Feeds
     require 'rss/content'
     include Feeds::Helper
 
-    def self.create_preferred(view_context: nil, title: '', summary: '', logo: '', events: [])
-      feed = Feeds::PodcastGenerator.new(
-          view_context,
-          title: title, channel_summary: summary, logo_image: logo
-      )
-      feed.generate(events, &:preferred_recording)
-    end
-
-    def self.create_preferred_hq(view_context: nil, title: '', summary: '', logo: '', events: [])
-      feed = Feeds::PodcastGenerator.new(
-          view_context,
-          title: title, channel_summary: summary, logo_image: logo
-      )
-      feed.generate(events) {
-          |event| event.recording_by_quality('hq')
-      }
-    end
-
-    def self.create_preferred_lq(view_context: nil, title: '', summary: '', logo: '', events: [])
-      feed = Feeds::PodcastGenerator.new(
-          view_context,
-          title: title, channel_summary: summary, logo_image: logo
-      )
-      feed.generate(events) {
-          |event| event.recording_by_quality('lq')
-      }
-    end
-
-    def self.create_audio(view_context: nil, title: '', summary: '', logo: '', events: [])
-      feed = Feeds::PodcastGenerator.new(
-          view_context,
-          title: title, channel_summary: summary, logo_image: logo
-      )
-      feed.generate(events, &:audio_recording)
-    end
-
-    def self.create_conference(view_context: nil, quality: nil, conference: nil, url: '', mime_type: '', mime_type_name: '')
-      feed = Feeds::PodcastGenerator.new(
-        view_context,
-        title: "#{conference.title} (#{mime_type_name})",
-        channel_summary: "This feed contains all events from #{conference.acronym} as #{mime_type_name}",
-        channel_description: "This feed contains all events from #{conference.acronym} as #{mime_type_name}",
-        base_url: view_context.conference_url(acronym: conference.acronym),
-        logo_image: conference.logo_url
-      )
-
-      feed.generate(conference.events.includes(:conference)) {
-          |event| event.recording_by_mime_type_and_quality(mime_type, quality)
-      }
-    end
-
     def initialize(view_context, config = {})
       @view_context = view_context
       @config = OpenStruct.new Settings.feeds

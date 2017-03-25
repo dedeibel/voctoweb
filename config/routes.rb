@@ -61,24 +61,24 @@ Rails.application.routes.draw do
     get '/updates.rdf', to: 'feeds#updates', defaults: { format: 'xml' }
     get '/podcast-audio-only.xml', to: 'feeds#podcast_audio', defaults: { format: 'xml' }
 
-    get '/podcast-hq.xml', to: 'feeds#podcast_hq', defaults: { format: 'xml' }
-    get '/podcast-lq.xml', to: 'feeds#podcast_lq', defaults: { format: 'xml' }
+    get '/podcast-(:quality).xml', to: 'feeds#podcast',
+        defaults: { format: 'xml' }, :constraints => { quality: %r'\w\w' }
+    get '/podcast-archive-(:quality).xml', to: 'feeds#podcast_archive',
+        defaults: { format: 'xml' }, :constraints => { quality: %r'\w\w' }
 
-    get '/podcast-archive-hq.xml', to: 'feeds#podcast_archive_hq', defaults: { format: 'xml' }
-    get '/podcast-archive-lq.xml', to: 'feeds#podcast_archive_lq', defaults: { format: 'xml' }
-
+    # For video files with quality option
     get '/c/:acronym/podcast/:mime_type-(:quality).xml', to: 'feeds#podcast_folder',
-        defaults: { format: 'xml' }, as: :podcast_folder_video_feed
+        defaults: { format: 'xml' }, :constraints => { quality: %r'\w\w' }, as: :podcast_folder_video_feed
+    # For audio and subtitle files
     get '/c/:acronym/podcast/:mime_type.xml', to: 'feeds#podcast_folder',
-        defaults: { format: 'xml' }, as: :podcast_folder_feed
-    # get '/c/:acronym/podcast/:mime_type.xml', to: 'feeds#podcast_folder', defaults: { format: 'xml' }
+        defaults: { format: 'xml' }, :constraints => { quality: %r'\w\w' }, as: :podcast_folder_feed
 
     # Preserve for existing users but do not advertise, remove when it seem appropriate
     # deprecated 2015-10
     get '/podcast/:slug/:mime_type', to: 'feeds#podcast_folder', defaults: { format: 'xml' }, as: :old_podcast_folder_feed
     # deprecated 2017-04
-    get '/podcast.xml', to: 'feeds#podcast', defaults: { format: 'xml' }
+    get '/podcast.xml', to: 'feeds#podcast_legacy', defaults: { format: 'xml' }
     # deprecated 2017-04
-    get '/podcast-archive.xml', to: 'feeds#podcast_archive', defaults: { format: 'xml' }
+    get '/podcast-archive.xml', to: 'feeds#podcast_archive_legacy', defaults: { format: 'xml' }
   end
 end

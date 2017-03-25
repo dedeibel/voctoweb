@@ -91,37 +91,6 @@ module Frontend
       seen.first[1]
     end
 
-    def recording_by_quality(quality)
-      selected_recordings = recordings.video
-      if quality == 'hq'
-        selected_recordings = selected_recordings
-          .sort { |recording_a,recording_b| recording_b.number_of_pixels - recording_a.number_of_pixels }
-      elsif quality == 'lq'
-        selected_recordings = selected_recordings
-          .select { |recording| recording.height && recording.height.to_i < 720 }
-          .sort { |recording_a,recording_b| recording_b.number_of_pixels - recording_a.number_of_pixels }
-      end
-
-      select_video_with_preferred_mime_type(selected_recordings).freeze
-    end
-
-    def recording_by_mime_type_and_quality(mime_type, quality)
-      selected_recordings = recordings.by_mime_type(mime_type)
-      # TODO BP quality object?
-      if quality == 'hq'
-        selected_recordings
-          .sort { |recording_a,recording_b| recording_b.number_of_pixels - recording_a.number_of_pixels }
-          .first.freeze
-      elsif quality == 'lq'
-        selected_recordings
-          .select { |recording| recording.height && recording.height.to_i < 720 }
-          .sort { |recording_a,recording_b| recording_b.number_of_pixels - recording_a.number_of_pixels }
-          .first.freeze
-      else
-        selected_recordings.first.freeze
-      end
-    end
-
     # @return [Array(Recording)]
     def by_mime_type(mime_type: 'video/mp4')
         recordings.by_mime_type(mime_type).first.freeze
@@ -139,14 +108,6 @@ module Frontend
     end
 
     private
-
-    def select_video_with_preferred_mime_type(recordings)
-      MimeType::PREFERRED_VIDEO.each { |mime_type|
-        found = recordings.find { |recording| recording.mime_type == mime_type }
-        return found if found != nil
-      }
-      recordings.first
-    end
 
     def thumb_filename_exists?
       return if thumb_filename.blank?

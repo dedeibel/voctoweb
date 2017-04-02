@@ -5,6 +5,7 @@ module Frontend
       menu = [
           { :left =>{ :content => 'News', :href => '/news.atom' } },
           { :left => { :content => 'RSS, last 100', :href => '/updates.rdf' } },
+          { :left => { :content => 'RSS, last 100', :href => '/updates.rdf' } },
           { :left => { :content => 'Podcast feed of the last two years', :href => '/podcast-hq.xml' },
                 :right =>
                     { :content => 'SD Quality', :href => '/podcast-lq.xml', :title =>  'Podcast feed of the last two years (SD)'} },

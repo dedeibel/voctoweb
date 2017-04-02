@@ -58,6 +58,37 @@
     display: inline-block;
   }
 
+  // TODO feeds.scss ?!
+  #feedDropdown {
+    // remove bs default padding
+    ul {
+      padding: 0;
+    }
+
+    li {
+      white-space: nowrap; // let the dropdown grow with it's width
+      list-style: none;
+
+      .indented {
+        padding-left: 1em;
+      }
+    }
+
+    // build the table layout
+    .row {
+      display: table-row;
+
+      &:nth-child(odd) {
+        background-color: #f5f5f5; // line coloring
+      }
+
+      .cell {
+        display: table-cell;
+      }
+    }
+  }
+
+/*
   .dropdown.multi-column {
     .dropdown-menu.columns-2 {
       min-width: 600px;
@@ -146,4 +177,5 @@
       padding-left: 1em;
     }
   }
+  */
 }

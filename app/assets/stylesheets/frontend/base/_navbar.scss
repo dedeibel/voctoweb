@@ -60,122 +60,94 @@
 
   // TODO feeds.scss ?!
   #feedDropdown {
-    // remove bs default padding
-    ul {
+    // remove some bs default padding
+    ul.feeds_list {
       padding: 0;
-    }
-
-    li {
-      white-space: nowrap; // let the dropdown grow with it's width
-      list-style: none;
-
-      .indented {
-        padding-left: 1em;
-      }
     }
 
     // build the table layout
     .row {
       display: table-row;
-
-      &:nth-child(odd) {
-        background-color: #f5f5f5; // line coloring
-      }
-
       .cell {
         display: table-cell;
       }
     }
-  }
 
-/*
-  .dropdown.multi-column {
-    .dropdown-menu.columns-2 {
-      min-width: 600px;
+    .row:nth-child(odd) {
+      background-color: #f5f5f5; // line bg coloring
     }
-    .dropdown-menu li a {
-      font-weight: 300;
-    }
-    .multi-column-dropdown {
-      list-style: none;
-    }
-    .multi-column-dropdown li a {
-      display: block;
-      clear: both;
-      line-height: 1.428571429;
+  }
+}
+
+.feeds_list {
+  // todo use variables.scss
+  background-color: white;
+
+  li {
+    a {
       color: #333;
-      white-space: normal;
-    }
-    .multi-column-dropdown li a:hover {
-      text-decoration: none;
-      color: #262626;
-      background-color: #ccc
-    }
-    @media (max-width: 767px) {
-      .dropdown-menu.multi-column {
-        min-width: 240px !important;
-        overflow-x: hidden;
+
+      &:hover {
+        text-decoration: none;
+        color: #262626;
+        background-color: #ccc;
       }
     }
   }
+}
 
-  #feedDropdown  {
-    $text_height: 20px;
-    $padding_top_or_bottom: 4px;
-
-    .dropdown-menu.columns-2 {
-      min-width: 490px;
-    }
+@media (min-width: 600px) {
+  .feeds_list {
+    display: table;
 
     ul {
-      padding: 15px 0;
+      list-style: none;
+    }
 
-      li {
-        height: $text_height + 2 * $padding_top_or_bottom;
-        line-height: $text_height;
+    li {
+      white-space: nowrap; // let the dropdown grow with it's width
+    }
 
-        &:nth-child(odd) {
-          background-color: #f5f5f5;
-        }
+    a, .headline {
+      display: inline-block;
+      width: 100%;
+      line-height: 1.5;
+      padding: 0 10pt;
 
-        &.divider {
-          background-color: transparent;
-        }
-
-        a {
-          text-decoration: none;
-        }
-
-        span, a {
-          padding: $padding_top_or_bottom 10px;
-          display: inline-block;
-        }
+      &.indented {
+        padding-left: 23pt;
       }
     }
 
-    .left-column {
-      padding-right: 0;
+    .headline {
+      color: #d87500;
+      line-height: 2.5;
+    }
 
-      ul {
-        li {
-          span, a {
-            min-width: 24em;
-          }
-        }
+  }
+}
+
+@media (max-width: 600px) {
+  .feeds_list {
+    width: 100%;
+    padding: 0 5pt 0 28pt;
+
+    ul {
+      list-style-type: square;
+    }
+
+    ul > li.placeholder, li.placeholder {
+      display: none;
+    }
+
+    .headline {
+      color: #d87500;
+      line-height: 2.5;
+    }
+
+    a, .headline {
+      &.indented {
       }
-    }
-
-    .right-column {
-      padding-left: 0;
-    }
-
-    .multi-column-dropdown {
-      padding: 0;
-    }
-
-    .indented {
-      padding-left: 1em;
     }
   }
-  */
 }

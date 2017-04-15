@@ -41,10 +41,10 @@
     padding-left: 0.2em;
     margin-top: 0.8em;
     margin-bottom: 0.8em;
-  }
 
-  .navbar-form.dropdown {
-    padding-right: 0.0em;
+    &.dropdown {
+      padding-right: 0.0em;
+    }
   }
 
   input {
@@ -57,27 +57,8 @@
     font-size: 1.3em;
     display: inline-block;
   }
-
-  // TODO feeds.scss ?!
-  #feedDropdown {
-    // remove some bs default padding
-    ul.feeds_list {
-      padding: 0;
-    }
-
-    // build the table layout
-    .row {
-      display: table-row;
-      .cell {
-        display: table-cell;
-      }
-    }
-
-    .row:nth-child(odd) {
-      background-color: #f5f5f5; // line bg coloring
-    }
-  }
 }
+
 
 .feeds_list {
   // todo use variables.scss
@@ -93,12 +74,21 @@
         background-color: #ccc;
       }
     }
+
+    .headline {
+      color: #d87500;
+    }
   }
 }
 
+#feedMenuMobile {
+  display: none;
+}
+
 @media (min-width: 600px) {
-  .feeds_list {
-    display: table;
+  .feeds_dropdown {
+    padding: 5px 0;
+    margin: 5px;
 
     ul {
       list-style: none;
@@ -108,45 +98,68 @@
       white-space: nowrap; // let the dropdown grow with it's width
     }
 
-    a, .headline {
-      display: inline-block;
-      width: 100%;
-      line-height: 1.5;
-      padding: 0 10pt;
+    .feeds_list {
+      display: table;
+      padding: 0; // remove some bs default padding
+      margin: 0;
 
-      &.indented {
-        padding-left: 23pt;
+      a, span {
+        display: inline-block;
+        width: 100%;
+        line-height: 1.5;
+        padding: 0 10pt;
+
+        &.indented {
+          padding-left: 23pt;
+        }
+      }
+
+      .headline {
+        line-height: 2.5;
       }
     }
 
-    .headline {
-      color: #d87500;
-      line-height: 2.5;
+    // build the table layout
+    .feed_row {
+      display: table-row;
+      .feed_cell {
+        display: table-cell;
+      }
     }
 
+    .feed_row:nth-child(odd) {
+      background-color: #f5f5f5; // line bg coloring
+    }
   }
 }
 
 @media (max-width: 600px) {
   .feeds_list {
     width: 100%;
-    padding: 0 5pt 0 28pt;
+    padding: 10pt 5pt 4pt 28pt;
+    font-size: 14pt;
 
     ul {
       list-style-type: square;
+
+      > li {
+        margin: 8pt 0;
+      }
     }
 
-    ul > li.placeholder, li.placeholder {
-      display: none;
-    }
+    li {
+      &.placeholder, &.placeholder {
+        display: none;
+      }
 
-    .headline {
-      color: #d87500;
-      line-height: 2.5;
-    }
+      &.headline {
+        list-style-type: none;
 
-    a, .headline {
-      &.indented {
+        a, span {
+          font-size: 18pt;
+          color: #d87500;
+          line-height: 1.5;
+        }
       }
     }
   }

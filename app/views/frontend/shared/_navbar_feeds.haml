@@ -1,48 +1,22 @@
-%div.feeds_dropdown
-  %ul.feeds_list
-    -# Translates the feeds menu structure to HTML - see feeds_navigation_bar_structure_helper.rb for the structure
-    - feed_structure.each do |entry|
-      - if entry[:headline]
-        %li{:class => 'row'}
-          %span{:class => %w(headline cell)}
-            #{entry[:headline]}
-          %ul
-            %li{:class => %w(cell placeholder)}
-      - else
-        %li{:class => ['row']}
-          %span{:class => 'cell'}
-            %a{:href => entry[:left][:href], :title => entry[:left][:title], :class => entry[:left][:indented]}
-              #{entry[:left][:content]}
-          %ul
-            - if entry[:right]
-              %li
-                %span{:class => 'cell'}
-                  %a{:href => entry[:right][:href], :title => entry[:right][:title]}
-                    #{entry[:right][:content]}
-            - else
-              %li{:class => 'placeholder'}
-                %span{:class => %w(cell placeholder)}
-
 %ul.feeds_list
   -# Translates the feeds menu structure to HTML - see feeds_navigation_bar_structure_helper.rb for the structure
   - feed_structure.each do |entry|
     - if entry[:headline]
-      %li{:class => 'row'}
-        %span{:class => %w(headline cell)}
+      %li{:class => 'feed_row headline'}
+        %span{:class => %w(headline feed_cell)}
           #{entry[:headline]}
-        %ul
-          %li{:class => %w(cell placeholder)}
+        %span{:class => %w(feed_cell placeholder)}
     - else
-      %li{:class => ['row']}
-        %span{:class => 'cell'}
+      %li{:class => ['feed_row']}
+        %div{:class => 'feed_cell'}
           %a{:href => entry[:left][:href], :title => entry[:left][:title], :class => entry[:left][:indented]}
             #{entry[:left][:content]}
         %ul
           - if entry[:right]
             %li
-              %span{:class => 'cell'}
+              %div{:class => 'feed_cell'}
                 %a{:href => entry[:right][:href], :title => entry[:right][:title]}
                   #{entry[:right][:content]}
           - else
             %li{:class => 'placeholder'}
-              %span{:class => %w(cell placeholder)}
+              %span{:class => %w(feed_cell placeholder)}

@@ -1,0 +1,107 @@
+#feedMenuMobile {
+  display: none; // displayed via js
+}
+
+.feeds_list {
+  background-color: $body-bg;
+
+  li {
+    a {
+      color: $text-color;
+
+      &:hover {
+        text-decoration: none;
+        background-color: darken($body-bg, 30%);
+      }
+    }
+
+    .headline {
+      color: $brand-primary;
+    }
+  }
+}
+
+@media (min-width: 600px) {
+  .feeds_dropdown {
+    padding: 5px 0;
+    margin: 5px;
+
+    ul {
+      list-style: none;
+    }
+
+    li {
+      white-space: nowrap; // let the dropdown grow with it's width
+    }
+
+    .feeds_list {
+      display: table;
+      padding: 0; // remove some bs default padding
+      margin: 0;
+
+      a, span {
+        display: inline-block;
+        width: 100%;
+        line-height: 1.5;
+        padding: 0 10pt;
+
+        &.indented {
+          padding-left: 23pt;
+        }
+      }
+
+      .headline {
+        line-height: 2.5;
+      }
+    }
+
+    // TODO why not directly as table??
+    // build the layout as table
+    .feed_row {
+      display: table-row;
+      .feed_cell {
+        display: table-cell;
+      }
+    }
+
+    .feed_row:nth-child(odd) {
+      background-color: #f5f5f5;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .feeds_list {
+    width: 100%;
+    padding: 10pt 5pt 4pt 28pt;
+    font-size: 14pt;
+
+    ul {
+      list-style-type: square;
+
+      > li {
+        margin: 8pt 0;
+      }
+    }
+
+    li {
+      &.placeholder, &.placeholder {
+        display: none;
+      }
+
+      &.headline {
+        list-style-type: none;
+
+        a, span {
+          font-size: 18pt;
+          color: #d87500;
+          line-height: 1.5;
+        }
+      }
+    }
+
+    > .feed_row {
+      margin: 8px 0;
+    }
+  }
+}

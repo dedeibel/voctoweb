@@ -1,22 +1,20 @@
-%ul.feeds_list
+%table.feeds_list
   -# Translates the feeds menu structure to HTML - see feeds_navigation_bar_structure_helper.rb for the structure
   - feed_structure.each do |entry|
     - if entry[:headline]
-      %li{:class => 'feed_row headline'}
-        %span{:class => %w(headline feed_cell)}
-          #{entry[:headline]}
-        %span{:class => %w(feed_cell placeholder)}
+      %tr{:class => 'headline'}
+        %td{:class => %w(headline)}
+          %span
+            #{entry[:headline]}
+        %td{:class => %w(placeholder)}
     - else
-      %li{:class => ['feed_row']}
-        %div{:class => 'feed_cell'}
+      %tr
+        %td
           %a{:href => entry[:left][:href], :title => entry[:left][:title], :class => entry[:left][:indented]}
             #{entry[:left][:content]}
-        %ul
-          - if entry[:right]
-            %li
-              %div{:class => 'feed_cell'}
-                %a{:href => entry[:right][:href], :title => entry[:right][:title]}
-                  #{entry[:right][:content]}
-          - else
-            %li{:class => 'placeholder'}
-              %span{:class => %w(feed_cell placeholder)}
+        - if entry[:right]
+          %td
+            %a{:href => entry[:right][:href], :title => entry[:right][:title]}
+              #{entry[:right][:content]}
+        - else
+          %td{:class => %w(placeholder)}

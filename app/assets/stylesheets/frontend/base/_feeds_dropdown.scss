@@ -20,8 +20,12 @@
 
 @media (min-width: 600px) {
   .feeds_dropdown {
-    padding: 5px 0;
-    margin: 5px;
+    margin: 0 5px;
+    padding: 0;
+    box-shadow: 5px 5px 15px #333333;
+    border: none;
+    font-size: 16px;
+    line-height: 1.5;
 
     .feeds_list {
       padding: 0; // remove some bs default padding
@@ -37,6 +41,7 @@
         &:hover {
           background-color: darken($body-bg, 20%);
         }
+
         &.headline:hover, &.placeholder:hover {
           background-color: inherit;
         }
@@ -61,21 +66,49 @@
 }
 
 @media (max-width: 600px) {
-  // TODO better ul / li?
-  .feeds_list {
-    width: 100%;
-    padding: 10pt 5pt 4pt 28pt;
-    font-size: 14pt;
+  .feeds_dropdown {
+    background-color: $body-bg;
+    padding: 8pt 5pt 5pt 10pt;
 
-    td {
-      line-height: 2;
-    }
+    // TODO better ul / li?
+    .feeds_list {
+      width: 100%;
+      font-size: 14pt;
+      margin-left: 20px;
 
-    .headline {
-      a, span {
-        font-size: 18pt;
-        color: #d87500;
-        line-height: 2;
+      tr {
+        display: list-item;
+        list-style-type: none;
+
+        td {
+          display: list-item;
+          list-style-type: circle;
+          line-height: 2;
+
+          &.placeholder {
+            display: none;
+          }
+
+          &.headline {
+            list-style-type: none;
+          }
+
+          &:nth-child(2) {
+            margin-left: 20pt;
+          }
+
+          a:hover {
+            background-color: darken($body-bg, 20%);
+          }
+        }
+      }
+
+      .headline {
+        a, span {
+          font-size: 18pt;
+          color: #d87500;
+          line-height: 2;
+        }
       }
     }
   }
